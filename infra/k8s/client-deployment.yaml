@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phlo-test-client
+spec:
+  selector:
+    matchLabels:
+      app: phlo-test-client
+  template:
+    metadata:
+      labels:
+        app: phlo-test-client
+    spec:
+      containers:
+      - name: phlo-test-client
+        image: jebo4real/phlo-test-client
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081

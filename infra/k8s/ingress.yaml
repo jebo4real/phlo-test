@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phlo-test-ingress
+  labels:
+    name: phlo-test-ingress
+spec:
+  rules:
+  - host: kubernetes.docker.internal
+  - http:
+      paths:
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: 'phlo-test-server'
+            port: 
+              number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: 'phlo-test-client'
+            port: 
+              number: 8081
