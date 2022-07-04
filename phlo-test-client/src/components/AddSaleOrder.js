@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { createSaleOrder } from "../slices/saleOrder";
+import SaleOrderDataService from "../services/SaleOrderService";
 
 const AddSaleOrder = () => {
   const initialSaleOrderState = {
@@ -11,13 +12,27 @@ const AddSaleOrder = () => {
   };
   const [saleOrder, setSaleOrder] = useState(initialSaleOrderState);
   const [submitted, setSubmitted] = useState(false);
+  const [products, setProducts] = useState([])
 
   const dispatch = useDispatch();
 
   const handleInputChange = event => {
     const { name, value } = event.target;
+    console.log(name, value)
     setSaleOrder({ ...saleOrder, [name]: value });
   };
+
+  const initFetch = useCallback(async () => {
+    const productsFromApi = await SaleOrderDataService.getAllProducts()
+    setProducts(productsFromApi.data)
+    setSaleOrder({...saleOrder, 'Product': productsFromApi.data[0].ProductName})
+  }, [])
+
+  useEffect(() => {
+    initFetch()
+  }, [initFetch])
+
+  console.log(products)
 
   const saveSaleOrder = () => {
     const { CustomerName, Product, SaleOrderPrice } = saleOrder;
@@ -70,16 +85,13 @@ const AddSaleOrder = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="product">Product</label>
-            <input
-              type="text"
-              className="form-control"
-              id="Product"
-              required
-              defaultValue={saleOrder.Product || ''}
-              onChange={handleInputChange}
-              name="Product"
-            />
+            <label htmlFor="Product">Product</label>
+            <select className="form-control" name="Product" id="Product" onChange={handleInputChange}>
+            ({products.map( prd => {
+              return (<option value={prd.ProductName}>{prd.ProductName}</option>)
+            })})  
+            
+          </select>
           </div>
 
           <div className="form-group">

@@ -5,8 +5,8 @@ const initialState = [];
 
 export const createSaleOrder = createAsyncThunk(
   "saleOrders/create",
-  async ({ CustomerName, Product, SalePrice }) => {
-    const res = await SaleOrderDataService.create({ CustomerName, Product, SalePrice });
+  async ({ CustomerName, Product, SaleOrderPrice }) => {
+    const res = await SaleOrderDataService.create({ CustomerName, Product, SaleOrderPrice });
     return res.data;
   }
 );
@@ -15,6 +15,14 @@ export const retrieveSaleOrder = createAsyncThunk(
   "saleOrders/retrieve",
   async () => {
     const res = await SaleOrderDataService.getAll();
+    return res.data;
+  }
+);
+
+export const retrieveProduct = createAsyncThunk(
+  "products/retrieve",
+  async () => {
+    const res = await SaleOrderDataService.getAllProducts();
     return res.data;
   }
 );
@@ -80,6 +88,7 @@ const SaleOrderSlice = createSlice({
     },
   },
 });
+
 
 const { reducer } = SaleOrderSlice;
 export default reducer;

@@ -28,6 +28,10 @@ const findByTitle = title => {
   return http.get(`/saleorder?title=${title}`);
 };
 
+const getAllProducts = () => {
+  return http.get("/product");
+};
+
 const SaleOrderService = {
   getAll,
   get,
@@ -35,7 +39,8 @@ const SaleOrderService = {
   update,
   remove,
   removeAll,
-  findByTitle
+  findByTitle,
+  getAllProducts
 };
 
 export default SaleOrderService;
