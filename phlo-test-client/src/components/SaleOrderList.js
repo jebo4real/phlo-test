@@ -46,8 +46,6 @@ const SaleOrderList = () => {
     return productWithSales;
   };
 
-  console.log(getProductsWithSales());
-
   const setActiveTutorial = (saleOrder, index) => {
     setcurrentSaleOrder(saleOrder);
     setCurrentIndex(index);

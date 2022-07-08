@@ -34,6 +34,7 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
 });
 
+
 var app = builder.Build();
 
 app.UseCors(crs => crs.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

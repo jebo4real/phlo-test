@@ -8,48 +8,65 @@ const AddSaleOrder = () => {
     id: null,
     CustomerName: "",
     Product: "",
-    SaleOrderPrice: 0
+    SaleOrderPrice: 0,
   };
   const [saleOrder, setSaleOrder] = useState(initialSaleOrderState);
   const [submitted, setSubmitted] = useState(false);
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const dispatch = useDispatch();
 
-  const handleInputChange = event => {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value)
+    console.log(name, value);
     setSaleOrder({ ...saleOrder, [name]: value });
   };
 
   const initFetch = useCallback(async () => {
-    const productsFromApi = await SaleOrderDataService.getAllProducts()
-    setProducts(productsFromApi.data)
-    setSaleOrder({...saleOrder, 'Product': productsFromApi.data[0].ProductName})
-  }, [])
+    const productsFromApi = await SaleOrderDataService.getAllProducts();
+    const sampleProducts = [
+      {
+        ProductId: 1,
+        ProductName: "Laptop",
+      },
+      {
+        ProductId: 2,
+        ProductName: "Keyboard",
+      },
+      {
+        ProductId: 3,
+        ProductName: "paper",
+      },
+    ];
+    productsFromApi.data.length > 0
+      ? setProducts(productsFromApi.data)
+      : setProducts(sampleProducts);
+    setSaleOrder({
+      ...saleOrder,
+      Product: productsFromApi.data[0].ProductName,
+    });
+  }, []);
 
   useEffect(() => {
-    initFetch()
-  }, [initFetch])
+    initFetch();
+  }, [initFetch]);
 
-  console.log(products)
 
   const saveSaleOrder = () => {
     const { CustomerName, Product, SaleOrderPrice } = saleOrder;
-    console.log(saleOrder)
 
     dispatch(createSaleOrder({ CustomerName, Product, SaleOrderPrice }))
       .unwrap()
-      .then(data => {
+      .then((data) => {
         setSaleOrder({
           id: data.id,
           CustomerName: data.CustomerName,
           Product: data.Product,
-          SaleOrderPrice: data.SaleOrderPrice
+          SaleOrderPrice: data.SaleOrderPrice,
         });
         setSubmitted(true);
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -58,7 +75,6 @@ const AddSaleOrder = () => {
     setSaleOrder(initialSaleOrderState);
     setSubmitted(false);
   };
-
 
   return (
     <div className="submit-form">
@@ -78,7 +94,7 @@ const AddSaleOrder = () => {
               className="form-control"
               id="CustomerName"
               required
-              defaultValue={saleOrder.CustomerName || ''}
+              defaultValue={saleOrder.CustomerName || ""}
               onChange={handleInputChange}
               name="CustomerName"
             />
@@ -86,12 +102,20 @@ const AddSaleOrder = () => {
 
           <div className="form-group">
             <label htmlFor="Product">Product</label>
-            <select className="form-control" name="Product" id="Product" onChange={handleInputChange}>
-            ({products.map( prd => {
-              return (<option value={prd.ProductName}>{prd.ProductName}</option>)
-            })})  
-            
-          </select>
+            <select
+              className="form-control"
+              name="Product"
+              id="Product"
+              onChange={handleInputChange}
+            >
+              (
+              {products.map((prd) => {
+                return (
+                  <option value={prd.ProductName}>{prd.ProductName}</option>
+                );
+              })}
+              )
+            </select>
           </div>
 
           <div className="form-group">
@@ -101,7 +125,7 @@ const AddSaleOrder = () => {
               className="form-control"
               id="SaleOrderPrice"
               required
-              defaultValue={saleOrder.SaleOrderPrice || ''}
+              defaultValue={saleOrder.SaleOrderPrice || ""}
               onChange={handleInputChange}
               name="SaleOrderPrice"
             />
