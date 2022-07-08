@@ -40,3 +40,8 @@ Run frontend client
 2. Open the .env file and change the REACT_APP_API property to the server api
 3. Run `npm install`
 4. Run `npm start`
+
+
+Additional Effort
+1. I have created docker containers for each service.
+2. In the infra folder, you can find kubernetes manifest files for deploying the application
