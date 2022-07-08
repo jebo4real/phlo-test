@@ -4,6 +4,7 @@ import { createSaleOrder } from "../slices/saleOrder";
 import SaleOrderDataService from "../services/SaleOrderService";
 
 const AddSaleOrder = () => {
+
   const initialSaleOrderState = {
     id: null,
     CustomerName: "",
@@ -16,12 +17,14 @@ const AddSaleOrder = () => {
 
   const dispatch = useDispatch();
 
+  //for handling form input changes
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, value);
     setSaleOrder({ ...saleOrder, [name]: value });
   };
 
+  //run on page load
+  // fetch products, if products === 0 use samlpe products
   const initFetch = useCallback(async () => {
     const productsFromApi = await SaleOrderDataService.getAllProducts();
     const sampleProducts = [
@@ -46,6 +49,7 @@ const AddSaleOrder = () => {
       Product: productsFromApi.data[0].ProductName,
     });
   }, []);
+
 
   useEffect(() => {
     initFetch();

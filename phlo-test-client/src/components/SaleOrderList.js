@@ -17,15 +17,18 @@ const SaleOrderList = () => {
     initFetch();
   }, [initFetch]);
 
-  console.log(saleorders);
-
+  //get product with sales
   const getProductsWithSales = () => {
+    // get unique products
     const arr = saleorders.map((p) => p.Product);
     const s = new Set(arr);
     const unique = [...s];
 
     const productWithSales = [];
 
+    // iterate over distinct products
+    // find maximum & minimum sale price
+    // construct product sales array
     unique.map((oneProduct) => {
       const productOneArray = saleorders.filter(
         (obj) => obj.Product === oneProduct

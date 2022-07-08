@@ -20,10 +20,12 @@ const SaleOrder = (props) => {
       });
   };
 
+
   useEffect(() => {
     getSaleOrder(props.match.params.id);
   }, [props.match.params.id]);
 
+  //for handling form input changes
   const handleInputChange = event => {
     const { name, value } = event.target;
     setcurrentSaleOrder({ ...currentSaleOrder, [name]: value });
